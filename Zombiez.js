@@ -18,6 +18,12 @@ Zombiez = function()// constructor
 		// this isn't necessarily how you'd actually set type and id
 		type = Math.floor(Math.random()*2);
 		id = i;
+		
+		
+		// attributes = {};
+		// attributes.type = 17;
+		// attributes.id = 4;
+		// attributes.size = 17;
 			
 		agentList.push(new agentDetails(type, id));
 	

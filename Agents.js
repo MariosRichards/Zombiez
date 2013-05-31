@@ -1,19 +1,24 @@
 // Overall Agents Class
-Agents = function(agentTypeList)// constructor
+
+// Stub!!! my constructor
+Agents = function(agentList)// constructor
 {
 
 	// instantiate agents
 
 };
 
-mentalAgent = function(type, id) {
+// mentalAgent = function(type, id) {
 
-	this.type = type;
-	this.id = id;
+	// this.type = type;
+	// this.id = id;
 
-};
+// };
 
-Agents.prototype.agentUpdate = function(input) {
+
+// agentUpdate(id, perceptList)
+
+Agents.prototype.agentUpdate = function(id, perceptList) {
 	// do nothing with input
 
 	// return random angle in degrees
