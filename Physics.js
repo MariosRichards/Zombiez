@@ -12,9 +12,9 @@ reqFrame =window.requestAnimationFrame ||
 
 
 // Overall Physics Class
-Physics = function(gameAgents, agentTypeList) // constructor
+Physics = function(gameAgents, agentList, agent) // constructor
 {
-	this.agentList = [];
+	this.physicalAgentList = [];
 	this.actionsList = [];
 	this.icanseeList = [];
 	
@@ -36,13 +36,13 @@ Physics = function(gameAgents, agentTypeList) // constructor
 	
 	// probably want to communicate id list as well!
 
-	for (var i = 0; i<=agentTypeList.length; i++)
+	for (var i = 0; i<agentList.length; i++)
 	{
 		var x = Math.random()*this.theCanvas.width;
 		var y = Math.random()*this.theCanvas.height;
-		var type = agentTypeList[i];
-		var id = i;
-		this.agentList.push(new physicalAgent(x, y, type, id));
+		var type = agentList[i].type;
+		var id = agentList[i].id;
+		this.physicalAgentList.push(new physicalAgent(x, y, type, id));
 		// note the order in which they are pushed onto the list
 	
 	}
@@ -61,45 +61,39 @@ physicalAgent = function(x, y, type, id)
 	
 };
 
+// percept objects
+percept = function(dx, dy, type)
+{
+
+	this.dx = dx;
+	this.dy = dy;
+	this.type;
+
+};
 
 
-	// Physics.prototype.setup = function(agentTypeList)
-	// {
-		// for (var i = 0; i<=agentTypeList.length; i++)
-		// {
-			// var x = Math.random()*100;
-			// var y = Math.random()*100;
-			// var type = agentTypeList[i];
-			// //Math.floor(Math.random()*2);
-			// var id = i;
-			// this.agentList.push(new physicalAgent(x, y, type, id));
-			// // note the order in which they are pushed onto the list
-		
-		// }
-		
-		// // get the appropriate reference to the agent code
-		
-		
-	
-	// }
-
 	
 	
-	// Physics.prototype.updatePhysics= function()
-	// {
+	Physics.prototype.updatePercepts = function()
+	{
 	
-	// }
+		var perceptsList = [];
+	
+	
+		return perceptsList;
+	
+	}
 	
 
 	
 	Physics.prototype.processActions = function()
 	{
-		for (var agent = 0; agent<this.agentList.length; agent++)
+		for (var agent = 0; agent<this.physicalAgentList.length; agent++)
 		{
 			//NOTE - actions to definitely exist for all agents!
 		
-			this.agentList[agent].x += this.speed*Math.cos(this.actionsList[agent]*this.degtorad);
-			this.agentList[agent].y += this.speed*Math.sin(this.actionsList[agent]*this.degtorad);
+			this.physicalAgentList[agent].x += this.speed*Math.cos(this.actionsList[agent]*this.degtorad);
+			this.physicalAgentList[agent].y += this.speed*Math.sin(this.actionsList[agent]*this.degtorad);
 			
 			
 			
@@ -124,14 +118,14 @@ physicalAgent = function(x, y, type, id)
 		// clear the screen (double buffering would be better!)
 		this.theContext.clearRect(0, 0, this.theCanvas.width, this.theCanvas.height);
 	
-		for (var agent=0; agent <this.agentList.length; agent++)
+		for (var agent=0; agent <this.physicalAgentList.length; agent++)
 		{
 		
 			// colour by type!
-			this.theContext.fillStyle = this.typeColour[this.agentList[agent].type];
+			this.theContext.fillStyle = this.typeColour[this.physicalAgentList[agent].type];
 			this.theContext.beginPath();
-			this.theContext.arc(this.agentList[agent].x,
-								this.agentList[agent].y,
+			this.theContext.arc(this.physicalAgentList[agent].x,
+								this.physicalAgentList[agent].y,
 								this.ZombificationRange/2, // Zombification occurs when 'sprites' overlap
 								0,
 								this.circ,
@@ -157,11 +151,12 @@ physicalAgent = function(x, y, type, id)
 		this.time ++;
 
 
-		// INPUT = Physics.prototype.updatePhysics();
+		var perceptsList = Physics.prototype.updatePercepts();
 		
-		for (var agent = 0; agent<this.agentList.length; agent++)
+		for (var agent = 0; agent<this.physicalAgentList.length; agent++)
 		{
-			this.actionsList[agent] = this.mentalAgents.agentUpdate( [] ); // hand it an empty list for the moment
+			
+			this.actionsList[agent] = this.mentalAgents.agentUpdate( this.physicalAgentList[agent].id, perceptsList[agent] ); // hand it an empty list for the moment
 		}
 		this.processActions();	
 
