@@ -24,11 +24,14 @@ Zombiez = function()// constructor
 	}
 	
 
+	// call to my agent stub
 	gameAgents = new Agents(agentList);
 
+	
+	// create physics engine, receive link, pass link, pass details for agents to be created
 	gamePhysics = new Physics(gameAgents, agentList);
 
-	// start
+	// start simulation 
 	gamePhysics.RunUniverse();
 
 };
